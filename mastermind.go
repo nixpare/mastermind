@@ -1,14 +1,13 @@
 package mastermind
 
 import (
+	"fmt"
 	"net/http"
+	"unicode"
 
+	"github.com/nixpare/logger"
 	"github.com/nixpare/process"
 	"github.com/nixpare/server/v2"
-)
-
-const (
-	passkey = "vivalapapaya"
 )
 
 var (
@@ -33,7 +32,7 @@ func MasterMindRoute(route *server.Route) {
 		route.StaticServe(true)
 	case "POST":
 		switch route.RequestURI {
-		case "/manage-git":
+		case manage_git_addr:
 			manageGit(route)
 		default:
 			route.Error(http.StatusMethodNotAllowed, "Method not allowed")
@@ -50,10 +49,20 @@ func manageGit(route *server.Route) {
 		return
 	}
 
-	if r.Passkey != passkey {
+	user, ok := passkeys[r.Passkey]
+	if !ok {
 		route.Error(http.StatusBadRequest, "Authentication failed")
 		return
 	}
+
+	var logArgs string
+	if r.Args != "" {
+		logArgs = " " + r.Args
+	}
+	route.Logger.Printf(logger.LOG_LEVEL_INFO, "Mastermind git management: %s sent <%s%s> command", user, r.Cmd, logArgs)
+
+	r.Cmd = removeWhiteSpace(r.Cmd)
+	r.Args = removeWhiteSpace(r.Args)
 
 	switch r.Cmd {
 	case "status":
@@ -81,7 +90,7 @@ func manageGit(route *server.Route) {
 
 		route.ServeData(resp)
 	default:
-		route.Error(http.StatusBadRequest, "Command not found")
+		route.Error(http.StatusBadRequest, fmt.Sprintf("Command not found: <%s>", r.Cmd))
 	}
 }
 
@@ -102,4 +111,14 @@ func gitCommand(args ...string) ([]byte, error) {
 	}
 
 	return p.Stdout(), nil
+}
+
+func removeWhiteSpace(s string) string {
+	var res string
+	for _, c := range s {
+		if !unicode.IsSpace(c) {
+			res += string(c)
+		}
+	}
+	return res
 }
