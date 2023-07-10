@@ -8,14 +8,13 @@ import (
 )
 
 const (
-	repoPath = "C:/Program Files/PareServer/nixpare/mastermind"
 	passkey = "vivalapapaya"
 )
 
 var (
 	MasterMind = server.Website {
 		Name: "Mastermind",
-		Dir: repoPath + "/public",
+		Dir: basedir + "/public",
 		MainPages: []string{ "/" },
 		NoLogPages: []string{ "/assets/" },
 		AllFolders: []string{ "" },
@@ -87,7 +86,7 @@ func manageGit(route *server.Route) {
 }
 
 func gitCommand(args ...string) ([]byte, error) {
-	p, err := process.NewProcess(repoPath, "git", args...)
+	p, err := process.NewProcess(basedir, "git", args...)
 	if err != nil {
 		return nil, err
 	}
