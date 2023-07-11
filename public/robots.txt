@@ -1,0 +1,3 @@
+User-Agent: *
+
+Sitemap: https://mastermind.nixpare.com/sitemap.xml
