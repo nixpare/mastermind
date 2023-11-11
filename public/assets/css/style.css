@@ -20,7 +20,7 @@ nav h1 {
 	margin-left: 15%;
 }
 
-.game-board {
+.game {
 	flex-grow: 1;
 	background-color: hsl(0, 0%, 80%);
 	padding: 4em 2em;
@@ -32,6 +32,74 @@ nav h1 {
 .game-header {
 	margin-bottom: 1.5em;
 	text-align: center;
+}
+
+.game-board {
+	margin: 2em 0;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5em;
+}
+
+.pill {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+	background-color: hsl(0, 0%, 90%);
+	padding: .6em .8em;
+	border-radius: 1000em;
+	box-shadow: inset 0 0 .4em hsla(0, 0%, 30%, .5);
+}
+
+.pill .circle {
+	width: 2em;
+	aspect-ratio: 1 / 1;
+	background-color: red;
+	border-radius: 50%;
+	box-shadow: 0 0 .8em hsla(0, 0%, 30%, .5);
+}
+
+.result {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+	background-color: hsl(0, 0%, 90%);
+	padding: .6em .8em;
+	border-radius: 1em;
+	box-shadow: inset 0 0 .4em hsla(0, 0%, 30%, .5);
+}
+
+.result .box {
+	height: 2em;
+	padding: .6em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.result .box div  {
+	width: 2em;
+	height: 2em;
+	background-color: transparent;
+	border-radius: .5em;
+	box-shadow: 0 0 .8em hsla(0, 0%, 30%, .5);
+}
+
+.result .box.check div {
+	width: 1.8em;
+	height: 1.2em;
+	border-radius: .3em;
+	transform: rotate(-45deg);
+	border: .2em solid hsla(0, 100%, 50%, 1);
+	border-top-color: transparent;
+	border-right-color: transparent;
+	box-shadow: unset;
 }
 
 footer {
