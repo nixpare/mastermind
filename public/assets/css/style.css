@@ -138,6 +138,12 @@ button.send-btn i {
 	border-right-color: transparent;
 }
 
+@media (max-width: 640px) {
+	.result {
+		display: none;
+	}
+}
+
 footer {
 	background-color: hsl(0, 0%, 20%);
 	padding: 2em 1em;
