@@ -5,21 +5,53 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mastermind</title>
 	<link rel="stylesheet" href="/assets/css/style.css">
-	<script src="/assets/js/index.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<script src="/assets/js/index.js" defer></script>
 </head>
 <body>
 	<nav>
-		<h1>Mastermind</h1>
-		<h2>By Biso and NixPare</h2>
+		<div class="title">
+			<h1>Mastermind</h1>
+			<h2>By Biso & NixPare</h2>
+		</div>
 	</nav>
 
 	<div class="game">
 		<h3 class="game-header">MATCH!</h3>
-		<div class="game-timer">
-			<p><span></span>Timer: <span timer-value>10s</span></p>
-		</div>
 		<div class="game-board">
+			<div class="row active">
+				<button class="send-btn">
+					<i class="fa-solid fa-circle-right"></i>
+				</button>
+				<div class="pill">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+				</div>
+				<div class="result">
+					<div class="box check">
+						<div></div>
+					</div>
+					<div class="box check close">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
+				<button type="button" class="send-btn">
+					<i class="fa-solid fa-circle-right"></i>
+				</button>
 				<div class="pill">
 					<div class="circle"></div>
 					<div class="circle"></div>
@@ -31,16 +63,115 @@
 					<div class="box">
 						<div></div>
 					</div>
-					<div class="box check">
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<button class="send-btn">
+					<i class="fa-solid fa-circle-right"></i>
+				</button>
+				<div class="pill">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+				</div>
+				<div class="result">
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<button class="send-btn">
+					<i class="fa-solid fa-circle-right"></i>
+				</button>
+				<div class="pill">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+				</div>
+				<div class="result">
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<button class="send-btn">
+					<i class="fa-solid fa-circle-right"></i>
+				</button>
+				<div class="pill">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+				</div>
+				<div class="result">
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
+						<div></div>
+					</div>
+					<div class="box">
 						<div></div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="game-timer">
+			<p><span></span>Timer: <span timer-value>10s</span></p>
+		</div>
 	</div>
 
 	<footer>
-		<p>Designed by <a href="https://nixpare.com">NixPare</a> and Biso</p>
+		<p>Designed by <a href="https://nixpare.com">NixPare</a> & Biso</p>
 	</footer>
 </body>
 </html>

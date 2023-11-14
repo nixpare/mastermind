@@ -13,16 +13,21 @@ body {
 
 nav {
 	padding: 2em 1em;
-	background-color: hsl(210, 70%, 60%);
+	background-color: hsl(210, 90%, 40%);
 }
 
-nav h1 {
+nav .title {
 	margin-left: 15%;
+}
+
+nav .title h2 {
+	font-size: 1em;
+	margin: 1em 0 0 3em;
 }
 
 .game {
 	flex-grow: 1;
-	background-color: hsl(0, 0%, 80%);
+	background-color: hsl(0, 0%, 60%);
 	padding: 4em 2em;
 	display: flex;
 	flex-direction: column;
@@ -43,6 +48,29 @@ nav h1 {
 	align-items: center;
 	justify-content: center;
 	gap: 1.5em;
+	margin: .6em 0;
+}
+
+button.send-btn {
+	font-size: 1.6em;
+	padding: .1em .3em;
+	border: none;
+	background-color: transparent;
+	color: hsl(210, 90%, 40%);
+	cursor: pointer;
+	pointer-events: none;
+	opacity: 0;
+	transition: all 0.4s;
+}
+
+button.send-btn i {
+	pointer-events: none;
+	clip-path: circle(40%);
+}
+
+.row.active button.send-btn {
+	pointer-events: all;
+	opacity: 1;
 }
 
 .pill {
@@ -50,10 +78,10 @@ nav h1 {
 	align-items: center;
 	justify-content: center;
 	gap: 1em;
-	background-color: hsl(0, 0%, 90%);
+	background-color: hsl(0, 0%, 80%);
 	padding: .6em .8em;
 	border-radius: 1000em;
-	box-shadow: inset 0 0 .4em hsla(0, 0%, 30%, .5);
+	box-shadow: inset 0 0 .4em hsla(0, 0%, 20%, .5);
 }
 
 .pill .circle {
@@ -61,23 +89,23 @@ nav h1 {
 	aspect-ratio: 1 / 1;
 	background-color: red;
 	border-radius: 50%;
-	box-shadow: 0 0 .8em hsla(0, 0%, 30%, .5);
+	box-shadow: 0 0 .8em hsla(0, 0%, 20%, .5);
 }
 
 .result {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: .8em;
 	gap: 1em;
-	background-color: hsl(0, 0%, 90%);
-	padding: .6em .8em;
+	background-color: hsl(0, 0%, 80%);
+	padding: .8em 1em;
 	border-radius: 1em;
-	box-shadow: inset 0 0 .4em hsla(0, 0%, 30%, .5);
+	box-shadow: inset 0 0 .4em hsla(0, 0%, 20%, .5);
 }
 
 .result .box {
 	height: 2em;
-	padding: .6em;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -89,17 +117,25 @@ nav h1 {
 	background-color: transparent;
 	border-radius: .5em;
 	box-shadow: 0 0 .8em hsla(0, 0%, 30%, .5);
+	transition: all 0.4s;
 }
 
 .result .box.check div {
 	width: 1.8em;
 	height: 1.2em;
 	border-radius: .3em;
-	transform: rotate(-45deg);
-	border: .2em solid hsla(0, 100%, 50%, 1);
+	margin-bottom: 0.4em;
+	transform: rotate(-50deg);
+	border: .2em solid hsla(120, 100%, 38%, 1);
 	border-top-color: transparent;
 	border-right-color: transparent;
 	box-shadow: unset;
+}
+
+.result .box.check.close div {
+	border-color: hsla(30, 100%, 50%, 1);
+	border-top-color: transparent;
+	border-right-color: transparent;
 }
 
 footer {
