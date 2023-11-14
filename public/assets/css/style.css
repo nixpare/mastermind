@@ -111,13 +111,18 @@ button.send-btn i {
 	justify-content: center;
 }
 
-.result .box div  {
+.result .box div {
 	width: 2em;
 	height: 2em;
 	background-color: transparent;
 	border-radius: .5em;
 	box-shadow: 0 0 .8em hsla(0, 0%, 30%, .5);
 	transition: all 0.4s;
+	--border-color: transparent;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: var(--border-color);
+	border-left-color: var(--border-color);
 }
 
 .result .box.check div {
@@ -126,21 +131,58 @@ button.send-btn i {
 	border-radius: .3em;
 	margin-bottom: 0.4em;
 	transform: rotate(-50deg);
-	border: .2em solid hsla(120, 100%, 38%, 1);
-	border-top-color: transparent;
-	border-right-color: transparent;
 	box-shadow: unset;
+	border-width: .2em;
+	border-style: solid;
+	--border-color: hsla(120, 100%, 38%, 1);
 }
 
 .result .box.check.close div {
-	border-color: hsla(30, 100%, 50%, 1);
-	border-top-color: transparent;
-	border-right-color: transparent;
+	--border-color: hsla(30, 100%, 50%, 1);
 }
 
 @media (max-width: 640px) {
-	.result {
-		display: none;
+	.row:has(.pill > .circle:nth-child(5):last-child) .result {
+		font-size: .5em;
+		position: relative;
+		width: 10em;
+		height: 10em;
+		border-radius: 50%;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box {
+		position: absolute;
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:not(.check) div {
+		border-radius: 50%;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:nth-child(1) {
+		top: 2.6em;
+		left: 3.2em;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:nth-child(2) {
+		top: 2.6em;
+		right: 1.5em;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:nth-child(3) {
+		top: calc(50% + .5em);
+		left: 2.5em;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:nth-child(4) {
+		top: calc(50% + .5em);
+		right: 0.5em;
+	}
+
+	.row:has(.pill > .circle:nth-child(5):last-child) .result .box:nth-child(5) {
+		bottom: .4em;
+		left: 50%;
 	}
 }
 
