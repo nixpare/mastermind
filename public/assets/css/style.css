@@ -43,6 +43,59 @@ nav .title h2 {
 	margin: 2em 0;
 }
 
+.color-select {
+	width: fit-content;
+	position: absolute;
+	top: -1000px;
+	left: -1000px;
+	transform: translate(-50%, -50%);
+}
+
+.color-select > div {
+	font-size: 1.2em;
+	border-radius: .5em;
+	display: flex;
+	align-items: center;
+	--popup-bg-color: white;
+	background-color: var(--popup-bg-color);
+	--margin: .4em;
+	padding: var(--margin);
+	gap: var(--margin);
+	position: relative;
+}
+
+.color-select .popup-arrow {
+	position: absolute;
+	top: calc((var(--margin) * -1) + .2em);
+	left: 50%;
+	width: 1.2em;
+	transform: translate(-50%, -50%) scaleY(.5);
+}
+
+.color-select .popup-arrow svg {
+	fill: var(--popup-bg-color);
+}
+
+.color-select button {
+	font-size: 1em;
+	height: 1.5em;
+	aspect-ratio: 1 / 1;
+	border: 0;
+	border-radius: 50%;
+}
+
+.color-select .color-red {
+	background-color: red;
+}
+
+.color-select .color-green {
+	background-color: green;
+}
+
+.color-select .color-blue {
+	background-color: blue;
+}
+
 .row {
 	display: flex;
 	align-items: center;
@@ -142,7 +195,7 @@ button.send-btn i {
 }
 
 @media (max-width: 640px) {
-	.row {
+	.game-board {
 		font-size: calc(.5em + 1.2vw);
 	}
 }
@@ -287,7 +340,7 @@ button.send-btn i {
 
 /* 7 elementi */
 @media (max-width: 640px) {
-	.row {
+	.game-board {
 		font-size: calc(.4em + 1.2vw);
 	}
 
