@@ -1,5 +1,7 @@
 # Config file for NixPare website
 config.go
 
+PID.txt
+
 # Junk
 .DS_Store
