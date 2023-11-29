@@ -27,23 +27,45 @@ for (let i = 1; i < rows; i++) {
 row = document.querySelector('.row')
 row.classList.add('active')
 
-/** @type{ HTMLElement } */ 
+/** @type{ HTMLElement } */
 let sel = document.querySelector('.color-select')
+/** @type{ HTMLElement | null } */
+let selectedCircle = null
 
-/** @type{ HTMLElement[] } */ 
-let circles = document.querySelectorAll('.pill .circle')
-circles.forEach(e => {
-	e.addEventListener('click', () => {
-		sel.style.top = e.offsetTop + e.offsetHeight + (sel.offsetHeight * 0.85) + "px"
-		sel.style.left = e.offsetLeft + (e.offsetWidth / 2) + "px"
+function showSelection(/** @type{ HTMLElement } */ elem) {
+	sel.style.top = elem.offsetTop + elem.offsetHeight + (sel.offsetHeight * 0.85) + "px"
+	sel.style.left = elem.offsetLeft + (elem.offsetWidth / 2) + "px"
+	
+	selectedCircle = elem
+}
+
+function hideSelection() {
+	sel.style.top = ''
+	sel.style.left = ''
+	
+	selectedCircle = null
+}
+
+sel.querySelectorAll('.circle').forEach(e => {
+	e.addEventListener('click', (ev) => {
+		selectedCircle.className = ev.target.className
+		hideSelection()
 	})
 })
 
-let game = document.querySelector('.game')
-game.addEventListener('click', (ev) => {
-	if (ev.target.classList.contains('game') || ev.target.classList.contains('game-board') || ev.target.classList.contains('row')) {
-		sel.style.top = '';
-		sel.style.left = '';
-	}
+document.querySelectorAll('.pill .circle').forEach(e => {
+	e.addEventListener('click', (ev) => {
+		if (ev.target == selectedCircle) {
+			hideSelection()
+			return
+		}
+
+		showSelection(ev.target)
+	})
 })
 
+document.querySelector('.game').addEventListener('click', (ev) => {
+	if (ev.target.classList.contains('game') || ev.target.classList.contains('game-board') || ev.target.classList.contains('row')) {
+		hideSelection()
+	}
+})
