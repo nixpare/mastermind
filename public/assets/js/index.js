@@ -31,7 +31,7 @@ row.classList.add('active')
 let sel = document.querySelector('.color-select')
 
 /** @type{ HTMLElement[] } */ 
-let circles = document.querySelectorAll('.circle')
+let circles = document.querySelectorAll('.pill .circle')
 circles.forEach(e => {
 	e.addEventListener('click', () => {
 		sel.style.top = e.offsetTop + e.offsetHeight + (sel.offsetHeight * 0.85) + "px"

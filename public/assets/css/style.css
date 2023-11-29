@@ -43,6 +43,46 @@ nav .title h2 {
 	margin: 2em 0;
 }
 
+.circle {
+	width: 2em;
+	aspect-ratio: 1 / 1;
+	background-color: brown;
+	border-radius: 50%;
+	box-shadow: 0 0 .8em hsla(0, 0%, 20%, .5);
+}
+
+.circle.red {
+	background-color: red;
+}
+
+.circle.orange {
+	background-color: orange;
+}
+
+.circle.yellow {
+	background-color: yellow;
+}
+
+.circle.green {
+	background-color: green;
+}
+
+.circle.lightblue {
+	background-color: lightblue;
+}
+
+.circle.purple {
+	background-color: purple;
+}
+
+.circle.black {
+	background-color: black;
+}
+
+.circle.white {
+	background-color: white;
+}
+
 .color-select {
 	width: fit-content;
 	position: absolute;
@@ -77,23 +117,7 @@ nav .title h2 {
 }
 
 .color-select button {
-	font-size: 1em;
-	height: 1.5em;
-	aspect-ratio: 1 / 1;
 	border: 0;
-	border-radius: 50%;
-}
-
-.color-select .color-red {
-	background-color: red;
-}
-
-.color-select .color-green {
-	background-color: green;
-}
-
-.color-select .color-blue {
-	background-color: blue;
 }
 
 .row {
@@ -135,46 +159,6 @@ button.send-btn i {
 	margin-right: 1em;
 	border-radius: 1000em;
 	box-shadow: inset 0 0 .4em hsla(0, 0%, 20%, .5);
-}
-
-.pill .circle {
-	width: 2em;
-	aspect-ratio: 1 / 1;
-	background-color: brown;
-	border-radius: 50%;
-	box-shadow: 0 0 .8em hsla(0, 0%, 20%, .5);
-}
-
-.pill .circle.red {
-	background-color: red;
-}
-
-.pill .circle.orange {
-	background-color: orange;
-}
-
-.pill .circle.yellow {
-	background-color: yellow;
-}
-
-.pill .circle.green {
-	background-color: green;
-}
-
-.pill .circle.lightblue {
-	background-color: lightblue;
-}
-
-.pill .circle.purple {
-	background-color: purple;
-}
-
-.pill .circle.black {
-	background-color: black;
-}
-
-.pill .circle.white {
-	background-color: white;
 }
 
 .result {
