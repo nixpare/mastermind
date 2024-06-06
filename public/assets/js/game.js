@@ -96,6 +96,9 @@ class Game {
 		})
 	}
 
+	/**
+	 * @param { number } n
+	 */
 	async #generateSecret(n) {
 		const resp = await fetch('/secret/' + n).catch(err => console.error(err));
 		if (!resp) {
