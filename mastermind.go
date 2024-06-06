@@ -1,23 +1,18 @@
 package mastermind
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
+	"pareserver/util"
+	"strconv"
 	"unicode"
 
-	"github.com/nixpare/logger"
+	"github.com/nixpare/logger/v3"
+	"github.com/nixpare/nix"
 	"github.com/nixpare/process"
-	"github.com/nixpare/server/v2"
-)
-
-var (
-	MasterMind = server.Website {
-		Name: "Mastermind",
-		Dir: basedir + "/public",
-		MainPages: []string{ "/" },
-		NoLogPages: []string{ "/assets/" },
-		AllFolders: []string{ "" },
-	}
 )
 
 type request struct {
@@ -26,32 +21,61 @@ type request struct {
 	Args    string `json:"args"`
 }
 
-func MasterMindRoute(route *server.Route) {
-	switch route.Method {
-	case "GET", "HEAD":
-		route.StaticServe(true)
-	case "POST":
-		switch route.RequestURI {
-		case manage_git_addr:
-			manageGit(route)
-		default:
-			route.Error(http.StatusMethodNotAllowed, "Method not allowed")
+var colors = []string{"red", "orange", "yellow", "green", "blue", "purple", "black", "white"}
+
+func Mastermind() http.Handler {
+	mux, n, _ := util.WebsiteHandler("mastermind.nixpare.com", basedir + "/public")
+
+	mux.Handle("GET /secret/{n}", n.Handle(func(ctx *nix.Context) {
+		ctx.DisableErrorCapture()
+		ctx.DisableLogging()
+
+		n, err := strconv.Atoi(ctx.R().PathValue("n"))
+		if err != nil {
+			ctx.Error(http.StatusBadRequest, "Invalid request", err)
+			return
 		}
-	default:
-		route.Error(http.StatusMethodNotAllowed, "Method not allowed")
-	}
+
+		if n < 0 || n >= len(colors) {
+			ctx.Error(http.StatusBadRequest, "Invalid request", "Color number out of range")
+			return
+		}
+
+		var result []string
+		colorsCopy := make([]string, len(colors))
+		copy(colorsCopy, colors)
+
+		for i := 0; i < n; i++ {
+			idx := rand.Intn(len(colorsCopy))
+			result = append(result, colorsCopy[idx])
+			colorsCopy = append(colorsCopy[:idx], colorsCopy[idx+1:]...)
+		}
+
+		data, err := json.Marshal(result)
+		if err != nil {
+			ctx.Error(http.StatusInternalServerError, "Internal server error", err)
+			return
+		}
+
+		ctx.JSON(data)
+	}))
+
+	mux.Handle("POST " + manage_git_addr, n.Handle(manageGit))
+
+	return mux
 }
 
-func manageGit(route *server.Route) {
-	r, err := server.ReadJSON[request](route)
+func manageGit(ctx *nix.Context) {
+	var r request
+	err := ctx.ReadJSON(&r)
 	if err != nil {
-		route.Error(http.StatusBadRequest, "Invalid request", err)
+		ctx.Error(http.StatusBadRequest, "Invalid request", err)
 		return
 	}
 
 	user, ok := passkeys[r.Passkey]
 	if !ok {
-		route.Error(http.StatusBadRequest, "Authentication failed")
+		ctx.Error(http.StatusBadRequest, "Authentication failed")
 		return
 	}
 
@@ -59,7 +83,7 @@ func manageGit(route *server.Route) {
 	if r.Args != "" {
 		logArgs = " " + r.Args
 	}
-	route.Logger.Printf(logger.LOG_LEVEL_INFO, "Mastermind git management: %s sent <%s%s> command", user, r.Cmd, logArgs)
+	ctx.Logger().Clone(nil, true, "msm-git").Printf(logger.LOG_LEVEL_INFO, "Mastermind git management: %s sent <%s%s> command", user, r.Cmd, logArgs)
 
 	r.Cmd = removeWhiteSpace(r.Cmd)
 	r.Args = removeWhiteSpace(r.Args)
@@ -68,29 +92,29 @@ func manageGit(route *server.Route) {
 	case "status":
 		resp, err := gitCommand("status")
 		if err != nil {
-			route.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args)
+			ctx.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args, err)
 			return
 		}
 
-		route.ServeData(resp)
+		ctx.Write(resp)
 	case "checkout":
 		resp, err := gitCommand("checkout", r.Args)
 		if err != nil {
-			route.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args)
+			ctx.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args, err)
 			return
 		}
 
-		route.ServeData(resp)
+		ctx.Write(resp)
 	case "pull":
 		resp, err := gitCommand("pull")
 		if err != nil {
-			route.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args)
+			ctx.Error(http.StatusBadRequest, "Error: " + string(resp), r.Cmd, r.Args, err)
 			return
 		}
 
-		route.ServeData(resp)
+		ctx.Write(resp)
 	default:
-		route.Error(http.StatusBadRequest, fmt.Sprintf("Command not found: <%s>", r.Cmd))
+		ctx.Error(http.StatusBadRequest, fmt.Sprintf("Command not found: <%s>", r.Cmd))
 	}
 }
 
@@ -100,17 +124,15 @@ func gitCommand(args ...string) ([]byte, error) {
 		return nil, err
 	}
 
-	err = p.Start(process.DevNull(), process.DevNull(), process.DevNull())
+	outB := bytes.NewBuffer(nil)
+	errB := bytes.NewBuffer(nil)
+
+	_, err = p.Run(nil, outB, errB)
 	if err != nil {
-		return nil, err
+		return errB.Bytes(), err
 	}
 
-	exitStatus := p.Wait()
-	if err = exitStatus.Error(); err != nil {
-		return p.Stderr(), err
-	}
-
-	return p.Stdout(), nil
+	return outB.Bytes(), nil
 }
 
 func removeWhiteSpace(s string) string {

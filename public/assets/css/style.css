@@ -84,7 +84,7 @@ nav .title h2 {
 	background-color: green;
 }
 
-.circle.lightblue {
+.circle.blue {
 	background-color: lightblue;
 }
 
@@ -214,11 +214,11 @@ button.send-btn i {
 .result .box.check div {
 	width: 1.8em;
 	height: 1.2em;
-	border-radius: .3em;
+	border-radius: .8em 5em .8em .5em;
 	margin-bottom: 0.4em;
 	transform: rotate(-50deg);
 	box-shadow: unset;
-	border-width: .2em;
+	border-width: .23em;
 	border-style: solid;
 	--border-color: hsla(120, 100%, 38%, 1);
 }
@@ -229,7 +229,7 @@ button.send-btn i {
 
 @media (max-width: 850px) {
 	.game-board {
-		font-size: clamp(.7em, calc(2.4vw - .25em), 1em);
+		font-size: clamp(.8em, calc(2.4vw - .25em), 1.2em);
 	}
 }
 

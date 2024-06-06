@@ -6,7 +6,7 @@
 	<title>Mastermind</title>
 	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<script src="/assets/js/index.js" defer></script>
+	<script src="/assets/js/game.js" defer></script>
 </head>
 <body>
 	<nav>
@@ -32,28 +32,32 @@
 					<button class="circle orange"></button>
 					<button class="circle yellow"></button>
 					<button class="circle green"></button>
-					<button class="circle lightblue"></button>
+					<button class="circle blue"></button>
 					<button class="circle purple"></button>
 					<button class="circle black"></button>
 					<button class="circle white"></button>
 				</div>
 			</div>
-			<div class="row">
-				<button class="send-btn">
-					<i class="fa-solid fa-circle-right"></i>
-				</button>
-				<div class="pill">
-					<div class="circle"></div>
+			<template id="row-template">
+				<div class="row">
+					<button class="send-btn">
+						<i class="fa-solid fa-circle-right"></i>
+					</button>
+					<div class="pill"></div>
+					<div class="result"></div>
 				</div>
-				<div class="result">
-					<div class="box">
-						<div></div>
-					</div>
+			</template>
+			<template id="circle-template">
+				<div class="circle"></div>
+			</template>
+			<template id="box-template">
+				<div class="box">
+					<div></div>
 				</div>
-			</div>
+			</template>
 		</div>
 		<div class="game-timer">
-			<p><span></span>Timer: <span timer-value>10s</span></p>
+			<p><span></span>Timer: <span timer-value>0s</span></p>
 		</div>
 	</div>
 
