@@ -26,6 +26,11 @@ var colors = []string{"red", "orange", "yellow", "green", "lightblue", "blue", "
 func Mastermind() http.Handler {
 	mux, n, _ := util.WebsiteHandler("mastermind.nixpare.com", basedir + "/public")
 
+	mux.Handle("GET /app.webmanifest", n.Handle(func(ctx *nix.Context) {
+		ctx.MimeType("application/manifest+json")
+		ctx.ServeCached("/app.webmanifest")
+	}))
+
 	mux.Handle("GET /secret/{n}", n.Handle(func(ctx *nix.Context) {
 		ctx.DisableErrorCapture()
 		ctx.DisableLogging()

@@ -160,6 +160,42 @@ button.send-btn {
 	transition: all 0.4s;
 }
 
+button.send-btn.wiggle {
+	animation: wiggle .4s forwards;
+}
+
+button.send-btn.wiggle > div {
+	transition: all 0.1s;
+	transform: rotate(var(--rotate, 0deg));
+}
+
+@keyframes wiggle {
+	0% {
+		transform: translateX(0em) scale(1);
+		--rotate: 0deg;
+	}
+
+	25% {
+		transform: translateX(-.05em) scale(1.05);
+		--rotate: -5deg;
+	}
+
+	50% {
+		transform: translateX(.05em) scale(1.05);
+		--rotate: 5deg;
+	}
+
+	75% {
+		transform: translateX(-.05em) scale(1.05);
+		--rotate: -5deg;
+	}
+
+	100% {
+		transform: translateX(0em) scale(1);
+		--rotate: 0deg;
+	}
+}
+
 button.send-btn i {
 	pointer-events: none;
 	clip-path: circle(40%);

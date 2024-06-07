@@ -184,8 +184,11 @@ class Row {
 	/** @type { Game } */
 	game
 
-	/** @type { HTMLElement } */
+	/** @type { HTMLButtonElement } */
 	sendButton
+
+	/** @type { boolean } */
+	checking
 
 	/** @type { HTMLElement } */
 	pill
@@ -237,10 +240,39 @@ class Row {
 		return this.html.classList.contains('active');
 	}
 
+	async wiggleSendButton() {
+		this.sendButton.classList.add('wiggle');
+		await sleep(1000);
+		this.sendButton.classList.remove('wiggle');
+	}
+
 	async check() {
+		if (this.checking) {
+			return;
+		}
+		this.checking = true;
+
+		/** @type { string[] } */
+		var colors = [];
+
+		for (let circle of this.circles) {
+			if (!circle.isColored()) {
+				await this.wiggleSendButton();
+				this.checking = false;
+				return;
+			}
+
+			const color = circle.getColor();
+			if (colors.includes(color)) {
+				await this.wiggleSendButton();
+				this.checking = false;
+				return;
+			}
+			colors.push(color);
+		}
+
 		this.deactivate();
 
-		var colors = this.circles.map(c => c.html.className.replace('circle ', ''));
 		var secret = [...await this.game.secret];
 		var resultIdx = 0;
 
@@ -282,11 +314,12 @@ class Row {
 		}
 
 		this.game.rowIdx ++;
-		if (this.game.rowIdx < this.game.rows.length) {
-			this.game.rows[this.game.rowIdx].activate();
-		} else {
+		if (this.game.rowIdx == this.game.rows.length) {
 			this.game.lose();
 		}
+
+		this.game.rows[this.game.rowIdx].activate();
+		this.checking = false;
 	}
 }
 
@@ -329,6 +362,27 @@ class Circle {
 			}
 		})
 	}
+
+	/**
+	 * @returns {string}
+	 */
+	getColor() {
+		return this.html.className.replace('circle ', '');
+	}
+
+	/**
+	 * @param {string} color 
+	 */
+	setColor(color) {
+		this.html.className = 'circle ' + color;
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	isColored() {
+		return this.html.className != 'circle';
+	}
 }
 
 class Box {
@@ -353,7 +407,7 @@ class Box {
 	}
 }
 
-const rows = 10;
+const rows = 8;
 const n = 5;
 
 const game = new Game(rows, n);
