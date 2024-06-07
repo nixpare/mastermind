@@ -21,7 +21,7 @@ type request struct {
 	Args    string `json:"args"`
 }
 
-var colors = []string{"red", "orange", "yellow", "green", "blue", "purple", "black", "white"}
+var colors = []string{"red", "orange", "yellow", "green", "lightblue", "blue", "violet", "black"}
 
 func Mastermind() http.Handler {
 	mux, n, _ := util.WebsiteHandler("mastermind.nixpare.com", basedir + "/public")
@@ -41,17 +41,25 @@ func Mastermind() http.Handler {
 			return
 		}
 
-		var result []string
+		var secret []string
 		colorsCopy := make([]string, len(colors))
 		copy(colorsCopy, colors)
 
 		for i := 0; i < n; i++ {
 			idx := rand.Intn(len(colorsCopy))
-			result = append(result, colorsCopy[idx])
+			secret = append(secret, colorsCopy[idx])
 			colorsCopy = append(colorsCopy[:idx], colorsCopy[idx+1:]...)
 		}
 
-		data, err := json.Marshal(result)
+		type payload struct {
+			Colors []string `json:"colors"`
+			Secret []string `json:"secret"`
+		}
+
+		data, err := json.Marshal(payload{
+			Colors: colors,
+			Secret: secret,
+		})
 		if err != nil {
 			ctx.Error(http.StatusInternalServerError, "Internal server error", err)
 			return

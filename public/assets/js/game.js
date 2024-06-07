@@ -51,7 +51,6 @@ class Game {
 		})
 
 		this.gameBoard = document.querySelector('.game-board');
-		this.#initSelector();
 
 		this.rows = [];
 		for (let i = 0; i < rows; i++) {
@@ -60,7 +59,7 @@ class Game {
 		}
 		this.rowIdx = 0;
 
-		this.secret = this.#generateSecret(n);
+		this.secret = this.#generateColors(n);
 		this.rows[this.rowIdx].activate();
 
 		/** @type { HTMLElement } */
@@ -85,14 +84,23 @@ class Game {
 		}, 1000)
 	}
 
-	#initSelector() {
+	/**
+	 * @param {string[]} colors 
+	 */
+	#initSelector(colors) {
 		this.selector = this.gameBoard.querySelector('.color-select');
-		this.selector?.querySelectorAll('.circle').forEach(e => {
-			e.addEventListener('click', (ev) => {
+		const selectorDiv = this.selector.querySelector('div');
+
+		colors.forEach(color => {
+			const circle = document.importNode(circleButtonTemplate, true);
+			circle.classList.add(color);
+			circle.addEventListener('click', (ev) => {
 				// @ts-ignore
 				this.selectedCircle.html.className = ev.target.className;
 				this.selectCircle(null);
 			})
+
+			selectorDiv.appendChild(circle);
 		})
 	}
 
@@ -100,7 +108,7 @@ class Game {
 	 * @param { number } n
 	 * @returns { Promise<string[] | null> }
 	 */
-	async #generateSecret(n) {
+	async #generateColors(n) {
 		const resp = await fetch('/secret/' + n).catch(err => console.error(err));
 		if (!resp) {
 			return null;
@@ -110,8 +118,11 @@ class Game {
 			console.error('Failed to generate secret');
 			return null;
 		}
-		
-		return await resp.json();
+
+		const { colors, secret } = await resp.json();
+
+		this.#initSelector(colors);
+		return secret;
 	}
 
 	selectCircle(/** @type { Circle } */ circle) {
@@ -141,8 +152,10 @@ class Game {
 		const result = document.importNode(rowTemplate.querySelector('.pill'), true);
 		(await this.secret).forEach(color => {
 			const circle = document.importNode(circleTemplate, true);
-			circle.className = 'circle ' + color;
+			circle.classList.add(color);
 			result.appendChild(circle);
+
+			console.log(circle);
 		})
 
 		result.style.marginTop = '1.5rem';
@@ -153,11 +166,15 @@ class Game {
 }
 
 /** @type {HTMLElement} */ // @ts-ignore
-const rowTemplate = document.getElementById("row-template").content.children.item(0);
-/** @type {HTMLElement} */ // @ts-ignore
-const circleTemplate = document.getElementById("circle-template").content.children.item(0);
-/** @type {HTMLElement} */ // @ts-ignore
-const boxTemplate = document.getElementById("box-template").content.children.item(0);
+const template = document.getElementById("template").content;
+/** @type {HTMLButtonElement} */
+const circleButtonTemplate = template.querySelector('button.circle');
+/** @type {HTMLDivElement} */
+const rowTemplate = template.querySelector('.row');
+/** @type {HTMLDivElement} */
+const circleTemplate = template.querySelector('div.circle');
+/** @type {HTMLDivElement} */
+const boxTemplate = template.querySelector('.box');
 
 class Row {
 
@@ -223,7 +240,7 @@ class Row {
 	async check() {
 		this.deactivate();
 
-		var colors = this.circles.map(c => c.html.className).map(c => c.replace('circle ', ''));
+		var colors = this.circles.map(c => c.html.className.replace('circle ', ''));
 		var secret = [...await this.game.secret];
 		var resultIdx = 0;
 

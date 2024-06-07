@@ -63,41 +63,41 @@ nav .title h2 {
 .circle {
 	width: 2em;
 	aspect-ratio: 1 / 1;
-	background-color: brown;
+	background-color: hsl(0, 0%, 90%);
 	border-radius: 50%;
 	box-shadow: 0 0 .8em hsla(0, 0%, 20%, .5);
 }
 
 .circle.red {
-	background-color: red;
+	background-color: hsl(0, 100%, 50%);
 }
 
 .circle.orange {
-	background-color: orange;
+	background-color: hsl(30, 100%, 50%);
 }
 
 .circle.yellow {
-	background-color: yellow;
+	background-color: hsl(60, 100%, 50%);
 }
 
 .circle.green {
-	background-color: green;
+	background-color: hsl(120, 100%, 38%);
+}
+
+.circle.lightblue {
+	background-color: hsl(180, 90%, 40%);
 }
 
 .circle.blue {
-	background-color: lightblue;
+	background-color: hsl(240, 100%, 50%);
 }
 
-.circle.purple {
-	background-color: purple;
+.circle.violet {
+	background-color: hsl(270, 80%, 60%);
 }
 
 .circle.black {
 	background-color: black;
-}
-
-.circle.white {
-	background-color: white;
 }
 
 .color-select {
@@ -105,13 +105,17 @@ nav .title h2 {
 	position: absolute;
 	top: -1000px;
 	left: -1000px;
+	z-index: 1;
 	transform: translate(-50%, -50%);
 }
 
 .color-select > div {
+	width: fit-content;
 	font-size: 1.2em;
 	border-radius: .5em;
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 	align-items: center;
 	--popup-bg-color: white;
 	background-color: var(--popup-bg-color);
@@ -230,6 +234,12 @@ button.send-btn i {
 @media (max-width: 850px) {
 	.game-board {
 		font-size: clamp(.8em, calc(2.4vw - .25em), 1.2em);
+	}
+}
+
+@media (max-width: 640px) {
+	.color-select {
+		max-width: 10rem;
 	}
 }
 
