@@ -148,23 +148,30 @@ nav .title h2 {
 	margin: .6em 0;
 }
 
-button.send-btn {
+.row button {
 	font-size: 2.2em;
 	padding: .1em .3em;
 	border: none;
 	background-color: transparent;
-	color: hsl(210, 90%, 40%);
 	cursor: pointer;
 	pointer-events: none;
 	opacity: 0;
+}
+
+.row button.send-btn {
+	color: hsl(210, 90%, 40%);
 	transition: all 0.4s;
 }
 
-button.send-btn.wiggle {
+.row button.clear-btn {
+	color: hsl(0, 85%, 40%);
+}
+
+.row button.send-btn.wiggle {
 	animation: wiggle .4s forwards;
 }
 
-button.send-btn.wiggle > div {
+.row button.send-btn.wiggle > div {
 	transition: all 0.1s;
 	transform: rotate(var(--rotate, 0deg));
 }
@@ -196,12 +203,12 @@ button.send-btn.wiggle > div {
 	}
 }
 
-button.send-btn i {
+.row button.send-btn i {
 	pointer-events: none;
 	clip-path: circle(40%);
 }
 
-.row.active button.send-btn {
+.row.active button {
 	pointer-events: all;
 	opacity: 1;
 }

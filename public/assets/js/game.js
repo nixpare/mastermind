@@ -213,8 +213,17 @@ class Row {
 		this.game.gameBoard.appendChild(this.html);
 
 		this.sendButton = this.html.querySelector('.send-btn');
-		const thisRow = this;
-		this.sendButton.addEventListener('click', () => { thisRow.check() });
+		this.sendButton.addEventListener('click', () => { this.check() });
+
+		this.html.querySelector('.clear-btn').addEventListener('click', () => {
+			if (!this.isActive()) {
+				return;
+			}
+
+			for (let circle of this.circles) {
+				circle.setColor('');
+			}
+		});
 
 		this.pill = this.html.querySelector('.pill');
 		this.circles = [];
