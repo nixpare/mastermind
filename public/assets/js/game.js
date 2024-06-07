@@ -22,7 +22,7 @@ class Game {
 	/** @type { Circle | null } */
 	selectedCircle
 
-	/** @type { string[] } */
+	/** @type { Promise<string[] | null> | null } */
 	secret
 
 	/** @type { number } */
@@ -60,7 +60,7 @@ class Game {
 		}
 		this.rowIdx = 0;
 
-		this.#generateSecret(n);
+		this.secret = this.#generateSecret(n);
 		this.rows[this.rowIdx].activate();
 
 		/** @type { HTMLElement } */
@@ -98,19 +98,20 @@ class Game {
 
 	/**
 	 * @param { number } n
+	 * @returns { Promise<string[] | null> }
 	 */
 	async #generateSecret(n) {
 		const resp = await fetch('/secret/' + n).catch(err => console.error(err));
 		if (!resp) {
-			return;
+			return null;
 		}
 
 		if (!resp.ok) {
 			console.error('Failed to generate secret');
-			return;
+			return null;
 		}
 		
-		this.secret = await resp.json();
+		return await resp.json();
 	}
 
 	selectCircle(/** @type { Circle } */ circle) {
@@ -132,13 +133,13 @@ class Game {
 		this.header.innerText = 'You won!';
 	}
 
-	lose() {
+	async lose() {
 		clearInterval(this.timer);
 		this.header.innerText = 'You lost ...';
 
 		/** @type {HTMLElement} */
 		const result = document.importNode(rowTemplate.querySelector('.pill'), true);
-		this.secret.forEach(color => {
+		(await this.secret).forEach(color => {
 			const circle = document.importNode(circleTemplate, true);
 			circle.className = 'circle ' + color;
 			result.appendChild(circle);
@@ -219,33 +220,37 @@ class Row {
 		return this.html.classList.contains('active');
 	}
 
-	check() {
+	async check() {
 		this.deactivate();
 
-		const colors = this.circles.map(c => c.html.className).map(c => c.replace('circle ', ''));
-		const secret = [...this.game.secret];
+		var colors = this.circles.map(c => c.html.className).map(c => c.replace('circle ', ''));
+		var secret = [...await this.game.secret];
 		var resultIdx = 0;
 
-		colors.forEach((color, i) => {
+		for (let i = 0; i < colors.length; i++) {
 			for (let j = 0; j < secret.length; j++) {
-				if (secret[j] == color && j == i) {
+				if (secret[j] == colors[i] && j == i) {
 					this.boxes[resultIdx].correct();
 					resultIdx ++;
 
 					delete secret[j];
 					delete colors[i];
 
+					await sleep(sleepTime);
 					break;
 				}
 			}
-		})
+		}
 
-		if (secret.filter(s => s != undefined).length == 0) {
+		colors = colors.filter(s => s != undefined)
+		secret = secret.filter(s => s != undefined)
+
+		if (secret.length == 0) {
 			this.game.win();
 			return;
 		}
 
-		colors.forEach(color => {
+		for (let color of colors) {
 			for (let j = 0; j < secret.length; j++) {
 				if (secret[j] == color) {
 					this.boxes[resultIdx].close();
@@ -253,10 +258,11 @@ class Row {
 
 					delete secret[j];
 
+					await sleep(sleepTime);
 					break;
 				}
 			}
-		})
+		}
 
 		this.game.rowIdx ++;
 		if (this.game.rowIdx < this.game.rows.length) {
@@ -265,6 +271,16 @@ class Row {
 			this.game.lose();
 		}
 	}
+}
+
+const sleepTime = 200;
+
+/**
+ * @param {number} ms 
+ * @returns Promise<any>
+ */
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 class Circle {
