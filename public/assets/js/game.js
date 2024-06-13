@@ -424,7 +424,9 @@ class Box {
 	}
 }
 
-const rows = 8;
-const n = 5;
+const params = new URLSearchParams(window.location.search);
+
+const rows = parseInt(params.get('rows'));
+const n = parseInt(params.get('n'));
 
 const game = new Game(rows, n);

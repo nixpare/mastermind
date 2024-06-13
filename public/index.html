@@ -3,11 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Mastermind</title>
+	<title>NixMind</title>
 	<link rel="manifest" href="/app.webmanifest">
 	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<script src="/assets/js/game.js" defer></script>
 </head>
 <body>
 	<nav>
@@ -17,41 +16,22 @@
 		</div>
 	</nav>
 
-	<div class="game">
-		<h3 class="game-header">MATCH!</h3>
-		<div class="game-board">
-			<div class="color-select">
-				<div>
-					<div class="popup-arrow">
-						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-							<path d="
-								M0 100 C0,100,50,100,50,0 C50,0,50,100,100,100 Z
-							"></path>
-						</svg>
-					</div>
-				</div>
-			</div>
-			<template id="template">
-				<button class="circle"></button>
-				<div class="row">
-					<button class="clear-btn">
-						<i class="fa-solid fa-xmark"></i>
-					</button>
-					<button class="send-btn">
-						<div><i class="fa-solid fa-circle-right"></i></div>
-					</button>
-					<div class="pill"></div>
-					<div class="result"></div>
-				</div>
-				<div class="circle"></div>
-				<div class="box">
-					<div></div>
-				</div>
-			</template>
-		</div>
-		<div class="game-timer">
-			<p><span></span>Timer: <span timer-value>0s</span></p>
-		</div>
+	<div class="page select-gamemode">
+		<h3>Gamemode:</h3>
+		<ul>
+			<li>
+				<a class="gamemode" href="/match?n=4&rows=6">4 Colori x 6</a>
+			</li>
+			<li>
+				<a class="gamemode" href="/match?n=5&rows=8">5 Colori x 8</a>
+			</li>
+			<li>
+				<a class="gamemode" href="/match?n=6&rows=10">6 Colori x 10</a>
+			</li>
+			<li>
+				<a class="gamemode" href="/match?n=7&rows=12">7 Colori x 12</a>
+			</li>
+		</ul>
 	</div>
 
 	<footer>

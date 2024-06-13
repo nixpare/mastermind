@@ -42,9 +42,12 @@ nav .title h2 {
 	margin: 1em 0 0 3em;
 }
 
-.game {
+.page {
 	flex-grow: 1;
 	background-color: hsl(0, 0%, 60%);
+}
+
+.game {
 	padding: 4em 2em;
 	display: flex;
 	flex-direction: column;
@@ -478,6 +481,38 @@ nav .title h2 {
 		top: 50%;
 		left: 50%;
 	}
+}
+
+.select-gamemode {
+	padding-top: 5em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.select-gamemode h3 {
+	font-size: 1.5em;
+	margin-bottom: 1em;
+}
+
+.select-gamemode ul {
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 1em;
+	margin: 1em 0;
+	max-width: 50%;
+}
+
+a.gamemode {
+	display: block;
+	font-size: 1.2em;
+	padding: .6em 1em;
+	border-radius: .5em;
+	background-color: hsl(210, 90%, 70%);
+	text-decoration: none;
 }
 
 footer {
