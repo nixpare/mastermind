@@ -97,7 +97,14 @@ class Game {
 			circle.addEventListener('click', (ev) => {
 				// @ts-ignore
 				this.selectedCircle.html.className = ev.target.className;
-				this.selectCircle(null);
+
+				const row = this.rows[this.rowIdx];
+				const idx = row.circles.indexOf(this.selectedCircle);
+				if (idx < row.circles.length - 1) {
+					this.selectCircle(row.circles[idx + 1]);
+				} else {
+					this.selectCircle(null);
+				}
 			})
 
 			selectorDiv.appendChild(circle);
@@ -365,6 +372,7 @@ class Circle {
 			}
 
 			if (this.row.game.selectedCircle == this) {
+				this.setColor('');
 				this.row.game.selectCircle(null)
 			} else {
 				this.row.game.selectCircle(this)
