@@ -515,6 +515,10 @@ a.gamemode {
 	text-decoration: none;
 }
 
+a.gamemode:visited, a.gamemode:hover, a.gamemode:active {
+	color: inherit;
+}
+
 footer {
 	background-color: hsl(0, 0%, 20%);
 	padding: 2em 1em;
