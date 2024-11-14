@@ -268,6 +268,8 @@ class Row {
 		}
 		this.checking = true;
 
+		this.game.selectCircle(null);
+
 		/** @type { string[] } */
 		var colors = [];
 
